@@ -85,7 +85,8 @@ simple_floods <- floods %>%
 
 # use the mutate function to create a new column and convert the stream gauge observations to m
 mutate_floods <- simple_floods %>%
-  mutate(simple_floods, gheight.m = gheight.ft * 0.3048)
+  mutate(gheight.m = gheight.ft * 0.3048, 
+         flood.m = flood.ft * 0.3048)
 
 
 
