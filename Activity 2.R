@@ -77,6 +77,17 @@ present_df %>%
   select(c(height_in)) %>%
   mutate(height_cm = height_in * 2.54)
 
+# in-class demo using floods df
+# use the select function to create a df without the following columns: 
+# agency, siteID, datetime, action.ft, moderate.ft, major.ft
+simple_floods <- floods %>%
+  select(-c('agency', 'siteID', 'datetime', 'action.ft', 'moderate.ft', 'major.ft'))
+
+# use the mutate function to create a new column and convert the stream gauge observations to m
+mutate_floods <- simple_floods %>%
+  mutate(simple_floods, gheight.m = gheight.ft * 0.3048)
+
+
 
 
 
