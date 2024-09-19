@@ -35,7 +35,8 @@ example <- floods %>%
 plot(peace$dateF, peace$gheight.ft, type = "l")
 #default type is points, type=b means there will be points connected by lines, type=l means it will be a line
 
-#to find the maximum height at each site, need to tell R to treat each name as a group, then within each group find the summary statistics
+#to find the maximum height at each site, need to tell R to treat each name as a group, 
+#then within each group find the summary statistics
 max_height <- floods %>%
   group_by(names) %>%
   summarise(max_height_ft = max(gheight.ft, na.rm = TRUE), 
@@ -77,18 +78,78 @@ present_df %>%
   select(c(height_in)) %>%
   mutate(height_cm = height_in * 2.54)
 
-# in-class demo using floods df
-# use the select function to create a df without the following columns: 
-# agency, siteID, datetime, action.ft, moderate.ft, major.ft
-simple_floods <- floods %>%
-  select(-c('agency', 'siteID', 'datetime', 'action.ft', 'moderate.ft', 'major.ft'))
+# example code for presentation
+floods_m <- floods %>%
+  mutate(action_height = action.ft, mod_height = moderate.ft, major_height = major.ft) %>%
+  select(-action.ft, -moderate.ft, -major.ft)
 
-# use the mutate function to create a new column and convert the stream gauge observations to m
-mutate_floods <- simple_floods %>%
+# in-class demo using floods df
+
+# use select to create a df without variables
+simple_floods <- floods %>%
+  select(-c('agency', 'siteID', 'datetime', 'moderate.ft', 'action.ft', 'major.ft'))
+
+# use mutate to create columns for metric units
+mutate_floods <- simple_floods %>% 
   mutate(gheight.m = gheight.ft * 0.3048, 
          flood.m = flood.ft * 0.3048)
 
 
+### Homework 2
+# Q1: make a separate plot for stream stage data for each river
+
+# first site is Fisheating Creek 
+fisheat <- floods %>%
+  filter(names == 'FISHEATING CREEK AT PALMDALE')
+
+hist(fisheat$gheight.ft, 
+     xlim = c(5,11))
+
+# second site is Peace River
+peace <- floods %>%
+  filter(names == "PEACE RIVER AT US 17 AT ZOLFO SPRINGS")
+
+hist(peace$gheight.ft)
+
+# third site is Santa Fe River 
+santa_fe <- floods %>%
+  filter(names == "SANTA FE RIVER NEAR FORT WHITE")
+
+hist(santa_fe$gheight.ft)
+
+# fourth site is Withlacoochee River
+withcooch <- floods %>%
+  filter(names == "WITHLACOOCHEE RIVER AT US 301 AT TRILBY")
+
+hist(withcooch$gheight.ft)
+
+# Q2: earliest date of flood occurrence for each flood category in each river 
+#from above, to find the earliest date each river reached flood stage specifically
+flood_date <- floods %>%
+  filter(gheight.ft >= flood.ft) %>%
+  group_by(names) %>%
+  summarise(min_date = min(dateF))
+
+# first flood category is action
+action_date <- floods %>%
+  filter(gheight.ft >= action.ft) %>%
+  group_by(names) %>%
+  summarise(min_date = min(dateF))
+
+# second flood category is moderate
+mod_date <- floods %>%
+  filter(gheight.ft >= moderate.ft) %>%
+  group_by(names) %>%
+  summarise(min_date = min(dateF))
+
+# third flood category is major
+major_date <- floods %>%
+  filter(gheight.ft >= major.ft) %>%
+  group_by(names) %>%
+  summarise(min_date = min(dateF))
+
+
+# Q3: which river had the highest stream stage above its listed height in the major flood category
 
 
 
