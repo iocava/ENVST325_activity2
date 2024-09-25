@@ -102,26 +102,26 @@ mutate_floods <- simple_floods %>%
 fisheat <- floods %>%
   filter(names == 'FISHEATING CREEK AT PALMDALE')
 
-hist(fisheat$gheight.ft, 
-     xlim = c(5,11))
+plot(fisheat$dateF, fisheat$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
 
 # second site is Peace River
 peace <- floods %>%
   filter(names == "PEACE RIVER AT US 17 AT ZOLFO SPRINGS")
 
-hist(peace$gheight.ft)
+plot(peace$dateF, peace$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
 
 # third site is Santa Fe River 
 santa_fe <- floods %>%
   filter(names == "SANTA FE RIVER NEAR FORT WHITE")
 
-hist(santa_fe$gheight.ft)
+plot(santa_fe$dateF, santa_fe$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
 
 # fourth site is Withlacoochee River
 withcooch <- floods %>%
-  filter(names == "WITHLACOOCHEE RIVER AT US 301 AT TRILBY")
+  filter(siteID == 2312000) #for some reason when I filtered by name the df didn't contain
+                            #anything, so I filtered by siteID instead 
 
-hist(withcooch$gheight.ft)
+plot(withcooch$dateF, withcooch$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
 
 # Q2: earliest date of flood occurrence for each flood category in each river 
 #from above, to find the earliest date each river reached flood stage specifically
@@ -150,8 +150,11 @@ major_date <- floods %>%
 
 
 # Q3: which river had the highest stream stage above its listed height in the major flood category
-
-
+height_abv_major <- floods %>%
+  mutate(diff = gheight.ft - major.ft) %>%
+  group_by(names) %>%
+  summarise(max_diff = max(diff, na.rm = TRUE))
+#answer is Peace River
 
 
 
