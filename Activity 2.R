@@ -102,26 +102,34 @@ mutate_floods <- simple_floods %>%
 fisheat <- floods %>%
   filter(names == 'FISHEATING CREEK AT PALMDALE')
 
-plot(fisheat$dateF, fisheat$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
+plot(fisheat$dateF, fisheat$gheight.ft, type = 'l', xlab="Date", 
+     ylab = "Stage height (ft)", main = 'Stream Stage at Fisheating Creek (2017)')
+     
 
 # second site is Peace River
 peace <- floods %>%
   filter(names == "PEACE RIVER AT US 17 AT ZOLFO SPRINGS")
 
-plot(peace$dateF, peace$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
+plot(peace$dateF, peace$gheight.ft, type = 'l', col = 'blue', xlab="Date", 
+     ylab = "Stage height (ft)", main = 'Stream Stage at Peace River (2017)', 
+     col.main = 'blue')
 
 # third site is Santa Fe River 
 santa_fe <- floods %>%
   filter(names == "SANTA FE RIVER NEAR FORT WHITE")
 
-plot(santa_fe$dateF, santa_fe$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
+plot(santa_fe$dateF, santa_fe$gheight.ft, type = 'l', col = 'red', xlab="Date", 
+     ylab = "Stage height (ft)", main = 'Stream Stage at Santa Fe River (2017)', 
+     col.main = 'red')
 
 # fourth site is Withlacoochee River
 withcooch <- floods %>%
   filter(siteID == 2312000) #for some reason when I filtered by name the df didn't contain
                             #anything, so I filtered by siteID instead 
 
-plot(withcooch$dateF, withcooch$gheight.ft, type = 'l', xlab="Date", ylab = "Stage height (ft)")
+plot(withcooch$dateF, withcooch$gheight.ft, type = 'l', col = 'darkgreen', xlab = "Date", 
+     ylab = "Stage height (ft)", main = 'Stream Stage at Withlacoochee River (2017)', 
+     col.main = 'darkgreen')
 
 # Q2: earliest date of flood occurrence for each flood category in each river 
 #from above, to find the earliest date each river reached flood stage specifically
